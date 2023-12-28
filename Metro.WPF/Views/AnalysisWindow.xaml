@@ -1,0 +1,30 @@
+﻿<Window x:Class="Metro.WPF.Views.AnalysisWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ScottPlot="clr-namespace:ScottPlot;assembly=ScottPlot.WPF"
+        xmlns:local="clr-namespace:Metro.WPF"
+        mc:Ignorable="d"
+        Title="AnalysisWindow" Height="600" Width="1025" ResizeMode="NoResize">
+    <Grid x:Name="analysisGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250">
+            </ColumnDefinition>
+            <ColumnDefinition Width="750" Name="Col1">
+            </ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <ListBox SelectedIndex="{Binding SelectedIndex}">
+
+                <TextBlock FontWeight="Bold" TextDecorations="Underline" Text="Статистика" FontSize="18" Height="40"/>
+                <ListBoxItem FontSize="14" Background="LightGray" Height="40">Нагрузка на поезда</ListBoxItem>
+                <ListBoxItem FontSize="14" Height="40">Нагрузка на станции</ListBoxItem>
+                <ListBoxItem FontSize="14" Background="LightGray" Height="40">Среднее время ожидания поезда</ListBoxItem>
+            </ListBox>
+
+        </Grid>
+        <Image Grid.Column="1" Name="img" Source="{Binding Image}" />
+    </Grid>
+
+</Window>
