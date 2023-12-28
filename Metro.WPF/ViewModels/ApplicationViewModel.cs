@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Metro.WPF.Views;
 using Microsoft.Win32;
+using System.Resources;
 
 namespace Metro.WPF.ViewModels;
 
@@ -19,11 +20,13 @@ internal class ApplicationViewModel : INotifyPropertyChanged
 
 	private readonly ILineService _lineService;
 	private readonly IPassengersFactory _passengersFactory;
-	private readonly TrainsDrawHelper _trainsDrawHelper;
-	private readonly LineDrawHelper _lineDrawHelper;
+	private TrainsDrawHelper _trainsDrawHelper;
+	private LineDrawHelper _lineDrawHelper;
 	private readonly IDataSource _dataSource;
 	private readonly ITrainProcessService _trainProcessService;
 	private readonly IAnalysisService _analysisService;
+	private readonly ResourceDictionary _resources;
+	private readonly ListBox _trainBox;
 	private DispatcherTimer _timer;
 
 	/// <summary>
@@ -50,7 +53,7 @@ internal class ApplicationViewModel : INotifyPropertyChanged
 	/// Компанда паузы
 	/// </summary>
 	public ICommand PauseButtonCommand { set; get; }
-	
+
 	/// <summary>
 	/// Команда пропуска часа
 	/// </summary>
@@ -104,6 +107,8 @@ internal class ApplicationViewModel : INotifyPropertyChanged
 		_analysisService = analysisService;
 		_canvas = canvas;
 		_trainProcessService = trainProcessService;
+		_resources = resources;
+		_trainBox = trainBox;
 
 		//Загрузить данные состояния поездов
 		dataSource.Lines.ForEach(line =>
@@ -119,10 +124,10 @@ internal class ApplicationViewModel : INotifyPropertyChanged
 
 		ResetButtonCommand = new RelayCommand(ResetButtonCommandClick);
 		SaveButtonCommand = new RelayCommand(SaveButtonCommandClick);
-        AnalysisWindowCallButton = new RelayCommand(AnalysisWindowCallButtonClick);
-        LoadButtonCommand = new RelayCommand(LoadButtonCommandClick);
-        PauseButtonCommand = new RelayCommand(PauseButtonCommandClick);
-        FastForwardButtonCommand = new RelayCommand(FastForwardButtonCommandClick);
+		AnalysisWindowCallButton = new RelayCommand(AnalysisWindowCallButtonClick);
+		LoadButtonCommand = new RelayCommand(LoadButtonCommandClick);
+		PauseButtonCommand = new RelayCommand(PauseButtonCommandClick);
+		FastForwardButtonCommand = new RelayCommand(FastForwardButtonCommandClick);
 	}
 
 	/// <summary>
@@ -178,7 +183,7 @@ internal class ApplicationViewModel : INotifyPropertyChanged
 			_lineDrawHelper.UpdateLineInfo(line, metroLineIndex);
 			_trainsDrawHelper.MoveTrains(line, metroLineIndex);
 		}
-		
+
 		//Изменить название окна
 		Title = $"Время {Core.Time:g}";
 
@@ -206,7 +211,7 @@ internal class ApplicationViewModel : INotifyPropertyChanged
 	/// Сохранить состояние
 	/// </summary>
 	/// <param name="sender">кнопка</param>
-    private void SaveButtonCommandClick(object sender)
+	private void SaveButtonCommandClick(object sender)
 	{
 		while (true)
 		{
@@ -222,7 +227,7 @@ internal class ApplicationViewModel : INotifyPropertyChanged
 					continue;
 				break;
 			}
-			
+
 		}
 	}
 
@@ -230,17 +235,22 @@ internal class ApplicationViewModel : INotifyPropertyChanged
 	/// Загрузить состояние с файла
 	/// </summary>
 	/// <param name="sender">кнопка</param>
-    private void LoadButtonCommandClick(object sender)
-    {
-	    var ofd = new OpenFileDialog();
-	    if (ofd.ShowDialog() == true)
-	    {
+	private void LoadButtonCommandClick(object sender)
+	{
+		var ofd = new OpenFileDialog();
+		if (ofd.ShowDialog() == true)
+		{
 			var fileName = ofd.FileName;
 			_trainProcessService.Reset();
 			_trainsDrawHelper.Reset();
 			_dataSource.LoadLinesData(fileName);
-	    }
-    }
+
+			_lineDrawHelper = new LineDrawHelper(_resources, _trainProcessService);
+			_trainsDrawHelper = new TrainsDrawHelper(_resources, _canvas, _trainBox);
+
+			DrawLines();
+		}
+	}
 
 	/// <summary>
 	/// Перезапуск всех процессов
@@ -255,7 +265,7 @@ internal class ApplicationViewModel : INotifyPropertyChanged
 			_trainsDrawHelper.Reset();
 		}
 	}
-	
+
 	/// <summary>
 	/// Вызов окна анализа
 	/// </summary>
