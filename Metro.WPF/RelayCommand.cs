@@ -29,6 +29,10 @@ internal class RelayCommand : ICommand
 		{
 			_action(parameter);
 		}
+		else
+		{
+			_action(null);
+		}
 	}
 
 	#endregion
