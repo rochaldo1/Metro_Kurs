@@ -34,4 +34,9 @@ public interface IAnalysisService
 	/// Обновление статистики нагрузки
 	/// </summary>
 	void UpdateWorkload();
+
+    /// <summary>
+    /// Сбросить статистику
+    /// </summary>
+    void Reset();
 }

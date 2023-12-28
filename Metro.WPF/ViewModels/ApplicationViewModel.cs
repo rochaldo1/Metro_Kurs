@@ -242,7 +242,9 @@ internal class ApplicationViewModel : INotifyPropertyChanged
 		{
 			var fileName = ofd.FileName;
 			_trainProcessService.Reset();
+			_lineDrawHelper.Reset(_canvas);
 			_trainsDrawHelper.Reset();
+			_analysisService.Reset();
 			_dataSource.LoadLinesData(fileName);
 
 			_lineDrawHelper = new LineDrawHelper(_resources, _trainProcessService);
@@ -263,6 +265,7 @@ internal class ApplicationViewModel : INotifyPropertyChanged
 		{
 			_trainProcessService.Reset();
 			_trainsDrawHelper.Reset();
+			_analysisService.Reset();
 		}
 	}
 

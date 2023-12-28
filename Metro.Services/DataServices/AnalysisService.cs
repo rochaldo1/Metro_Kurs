@@ -80,4 +80,10 @@ internal class AnalysisService : IAnalysisService
         _workloadStations.Add(stationStat);
 		_workloadTrains.Add(trainStat);
     }
+    public void Reset()
+    {
+        _passengersWaitTimes.Clear();
+        _workloadTrains.Clear();
+        _workloadStations.Clear();
+    }
 }

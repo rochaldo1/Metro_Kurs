@@ -182,4 +182,14 @@ internal class LineDrawHelper : BaseDrawHelper
 		var selectedLineId = int.Parse(((Button)sender).Name.Replace("btn_", string.Empty));
 		_trainProcessService.StartNewTrain(selectedLineId);
 	}
+
+    /// <summary>
+    /// Очистить визуализацию от поездов
+    /// </summary>
+    public void Reset(Canvas canvas)
+    {
+        canvas.Children.Clear();
+        _stationCaptions.Clear();
+        _lineCaptions.Clear();
+    }
 }

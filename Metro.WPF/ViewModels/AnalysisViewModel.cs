@@ -128,12 +128,6 @@ internal class AnalysisViewModel : INotifyPropertyChanged
         var bar = plt.AddBar(values: probabilities, positions: hist.Bins);
         bar.BarWidth = 10;
 
-        var stats = new ScottPlot.Statistics.BasicStats(waitTimes.ToArray());
-        plt.AddVerticalLine(stats.Mean, Color.Black, 2, LineStyle.Solid, "Мат. ожидание");
-        plt.AddVerticalLine(stats.Mean - stats.StDev, Color.Black, 2, LineStyle.Dash, "Среднекв. откл.");
-        plt.AddVerticalLine(stats.Mean + stats.StDev, Color.Black, 2, LineStyle.Dash);
-        plt.Legend(location: Alignment.UpperRight);
-
         // customize the plot style
         plt.Title("Среднее время ожидание пассажиров", size: 20);
 		plt.YAxis.Label("Веротяность", size: 18);
