@@ -19,4 +19,9 @@ public class LinkedLine
     /// Id станции, на которую пассажиру нужно перейти
     /// </summary>
     public int StationDestinationId { get; set; }
+
+    /// <summary>
+    /// Код объекта
+    /// </summary>
+    public string Code { get; set; }
 }

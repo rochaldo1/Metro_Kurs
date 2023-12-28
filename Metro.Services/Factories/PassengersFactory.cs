@@ -52,7 +52,7 @@ internal class PassengersFactory : IPassengersFactory
                 endStationId = _lineService.GetRandomStationId();
             }
 
-            var routes = GetRoute(startStationId, endStationId);
+            var routes = GetRoute(startStationId, endStationId, null);
             if (routes.Count == 0)
             {
                 //Везем только тех, кто едет кудато а не просто пересаживается (таковы издержки random)
@@ -99,7 +99,7 @@ internal class PassengersFactory : IPassengersFactory
     /// <param name="endStationId">id конечной станции</param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
-	private List<PassengersRoute> GetRoute(int startStationId, int endStationId)
+	private List<PassengersRoute> GetRoute(int startStationId, int endStationId, string currentLinkedId)
     {
 	    if (startStationId <= 0)
 	    {
@@ -145,7 +145,12 @@ internal class PassengersFactory : IPassengersFactory
                 continue;
 	        }
 
-            var innerRoutes = GetRoute(link.StationDestinationId, endStationId);
+	        if (currentLinkedId == link.Code)
+	        {
+		        continue;
+	        }
+
+            var innerRoutes = GetRoute(link.StationDestinationId, endStationId, link.Code);
             if (innerRoutes.Count == 0)
             {
                 continue;
@@ -180,7 +185,7 @@ internal class PassengersFactory : IPassengersFactory
 
         if (routes.Count == 0)
         {
-            routes = GetRoute(endStationId, startStationId);
+            routes = GetRoute(endStationId, startStationId, null);
             routes.Reverse();
             foreach (var route in routes)
             {
