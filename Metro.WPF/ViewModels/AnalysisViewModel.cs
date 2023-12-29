@@ -1,9 +1,8 @@
-﻿using System.ComponentModel;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Windows.Media.Imaging;
 using Metro.Services.Contracts.DataServices;
+using Metro.WPF.ViewModels.Base;
 using ScottPlot;
 
 namespace Metro.WPF.ViewModels;
@@ -11,7 +10,7 @@ namespace Metro.WPF.ViewModels;
 /// <summary>
 /// VM для окна анализа
 /// </summary>
-internal class AnalysisViewModel : INotifyPropertyChanged
+internal class AnalysisViewModel : BaseViewModel
 {
 	private readonly IAnalysisService _analysisService;
 
@@ -161,12 +160,5 @@ internal class AnalysisViewModel : INotifyPropertyChanged
 			_image = value;
 			OnPropertyChanged();
 		}
-	}
-	
-	public event PropertyChangedEventHandler PropertyChanged;
-
-	protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-	{
-		PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 	}
 }

@@ -4,16 +4,16 @@ using Metro.Data.Contracts;
 using Metro.Services.Contracts.DataServices;
 using Metro.WPF.DrawHelpers;
 using System.Windows.Threading;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Metro.WPF.Commands;
+using Metro.WPF.ViewModels.Base;
 using Metro.WPF.Views;
 using Microsoft.Win32;
 
 namespace Metro.WPF.ViewModels;
 
-internal class ApplicationViewModel : INotifyPropertyChanged
+internal class ApplicationViewModel : BaseViewModel
 {
 	private const int MaxTick = 120;
 
@@ -194,17 +194,7 @@ internal class ApplicationViewModel : INotifyPropertyChanged
 			_analysisService.UpdateWorkload();
 			_tickCount = 0;
 		}
-	}
-
-	public event PropertyChangedEventHandler PropertyChanged;
-
-	public void OnPropertyChanged([CallerMemberName] string propertyName = null)
-	{
-		if (PropertyChanged != null)
-		{
-			PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-		}
-	}
+	} 
 
 	/// <summary>
 	/// Сохранить состояние
@@ -237,6 +227,7 @@ internal class ApplicationViewModel : INotifyPropertyChanged
 	private void LoadButtonCommandClick(object sender)
 	{
 		var ofd = new OpenFileDialog();
+		//Открыть диалоговое окно выбора файла
 		if (ofd.ShowDialog() == true)
 		{
 			var fileName = ofd.FileName;
