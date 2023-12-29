@@ -10,7 +10,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Metro.WPF.Views;
 using Microsoft.Win32;
-using System.Resources;
 
 namespace Metro.WPF.ViewModels;
 

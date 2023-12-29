@@ -61,30 +61,4 @@ internal class TrainProcessService : ITrainProcessService
 			trainProcess.Processed();
 		}
 	}
-
-	public bool HasDangerDistance(int trainId, int stationId, double breakingDistance)
-	{
-		if (trainId <= 0)
-		{
-			throw new TrainIdIsIncorrectException(nameof(trainId));
-		}
-		
-		if (stationId <= 0)
-		{
-			throw new StationIdIsIncorrectException(nameof(stationId));
-		}
-
-		if (breakingDistance <= 0)
-		{
-			throw new ArgumentException("Тормозной путь не может быть <= 0", nameof(breakingDistance));
-		}
-
-		return _processes
-			   .Any(x =>//Существует хотя бы один
-					   x.Train.Id != trainId && //Не текущий поезд
-					   x.Train.CurrentState.NextStationId == stationId && //едет до следующей станции
-					   x.Train.CurrentState.Distance < breakingDistance && //Дистанция меньше тормозного пути
-					   x.Train.CurrentState.Distance > 0 //И тот поезд уже тронулся
-			   );
-	}
 }

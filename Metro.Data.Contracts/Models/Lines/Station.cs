@@ -2,7 +2,6 @@
 using Metro.Data.Contracts.Models.Base;
 using Metro.Data.Contracts.Models.Passengers;
 using Newtonsoft.Json;
-using System.Collections.Concurrent;
 
 namespace Metro.Data.Contracts.Models.Lines;
 

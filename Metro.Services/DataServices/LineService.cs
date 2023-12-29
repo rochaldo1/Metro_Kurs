@@ -66,15 +66,6 @@ internal class LineService : ILineService
 		return null;
 	}
 
-	public int GetStationCount(int? lineId = null)
-	{
-		if (lineId.HasValue)
-		{
-			return GetLine(lineId.Value).Stations.Count;
-		}
-		return _dataSource.Lines.Sum(metroLine => metroLine.Stations.Count);
-	}
-
 	public int GetRandomStationId()
 	{
 		var lineIndex = Core.NextRnd(_dataSource.Lines.Count);
@@ -238,26 +229,6 @@ internal class LineService : ILineService
 				carriage.Passengers.RemoveAll(x => listToRemove.Contains(x.Id));
 			}
 		}
-	}
-
-	public int GetPassengersCountTrains()
-	{
-		return _dataSource.Lines.Sum(
-			line => line.Trains.Sum(
-				train => train.Carriages.Sum(
-					carriage => carriage.Passengers.Count)));
-	}
-
-	public int GetPassengersCountStations()
-	{
-		var result = 0;
-		foreach (var station in _dataSource.Lines.SelectMany(line => line.Stations))
-		{
-			result += station.BackwardPassengers.Count;
-			result += station.ForwardPassengers.Count;
-		}
-
-		return result;
 	}
 
 	public void AddTrain(int lineId, Train train)

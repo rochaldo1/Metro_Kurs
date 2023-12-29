@@ -1,9 +1,6 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using Metro.Services.Contracts.DataServices;
 using Metro.WPF.ViewModels;
-using ScottPlot;
 
 namespace Metro.WPF.Views;
 

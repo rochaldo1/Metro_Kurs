@@ -32,14 +32,6 @@ public interface ILineService
     Station GetStation(int lineId, int stationId);
 
     /// <summary>
-    /// Получить количество станций (на линии / всего)
-    /// </summary>
-    /// <param name="lineId">id линии</param>
-    /// <returns>lineId != null - количество станций на линии
-    /// lineId == null - количесвто всех станций в метрополитене</returns>
-    int GetStationCount(int? lineId = null);
-
-    /// <summary>
     /// Получть Id случайной станции на случайной линии
     /// </summary>
     /// <returns>Id случайной станции на случайной линии </returns>
@@ -89,18 +81,6 @@ public interface ILineService
     /// <param name="train">поезд</param>
     /// <param name="stationId">id станции</param>
     void UnloadPassengersFromTrain(Train train, int stationId);
-
-    /// <summary>
-    /// Кол-во пассажиров в поездах
-    /// </summary>
-    /// <returns></returns>
-    int GetPassengersCountTrains();
-
-    /// <summary>
-    /// Кол-во пассажиров на станциях
-    /// </summary>
-    /// <returns></returns>
-    int GetPassengersCountStations();
 
     /// <summary>
     /// Добавить поезд на линию

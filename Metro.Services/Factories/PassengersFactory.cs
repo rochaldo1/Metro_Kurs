@@ -97,6 +97,7 @@ internal class PassengersFactory : IPassengersFactory
     /// </summary>
     /// <param name="startStationId">id начальной станции</param>
     /// <param name="endStationId">id конечной станции</param>
+    /// <param name="currentLinkedId">текущий id пересадки</param>
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
 	private List<PassengersRoute> GetRoute(int startStationId, int endStationId, string currentLinkedId)

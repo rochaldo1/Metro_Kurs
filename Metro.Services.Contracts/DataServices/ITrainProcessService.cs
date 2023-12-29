@@ -15,15 +15,6 @@ public interface ITrainProcessService
     int StartNewTrain(int lineId);
 
     /// <summary>
-    /// На участке до следующей станции есть поезд на расстоянии тормозного пути
-    /// </summary>
-    /// <param name="trainId">текщуий поезд</param>
-    /// <param name="stationId">станция на которую едем</param>
-    /// <param name="breakingDistance">тормозной путь - безопасная дистанция</param>
-    /// <returns></returns>
-    bool HasDangerDistance(int trainId, int stationId, double breakingDistance);
-
-    /// <summary>
     /// Загрузить процесс поезда
     /// </summary>
     /// <param name="train">поезд</param>

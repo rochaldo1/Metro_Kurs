@@ -1,7 +1,7 @@
 ﻿namespace Metro.Services.Contracts.DataServices;
 
 /// <summary>
-/// Сервис анализа данных
+/// Сервис сбора данных для анализа
 /// </summary>
 public interface IAnalysisService
 {

@@ -28,11 +28,6 @@ public class Passenger
     public Guid Id { get; set; } = Guid.NewGuid();
     
     /// <summary>
-    /// Поезд, в котором едет пассажир
-    /// </summary>
-    public int? TrainId { set; get; }
-
-    /// <summary>
     /// Маршрут пассажира
     /// </summary>
     public List<PassengersRoute> Routes { get; set; }
