@@ -18,6 +18,7 @@ public class TrainsDrawHelper : BaseDrawHelper
 	private readonly Dictionary<int, StackPanel> _trainPanels = new();
 	private readonly ListBox _trainBox;
 	private readonly Canvas _canvas;
+	private int _currentTrainIndex = 0;
 
 	public TrainsDrawHelper(ResourceDictionary resources, Canvas canvas, ListBox trainBox) : base(resources)
 	{
@@ -44,6 +45,23 @@ public class TrainsDrawHelper : BaseDrawHelper
 		_trainPanels.Clear();
 	}
 
+	private int _selectedTrainId = -1;
+
+	public void SelectTrain(int index)
+	{
+		foreach (StackPanel trainBoxItem in _trainBox.Items)
+		{
+			if (trainBoxItem.Name.EndsWith($"_{index}"))
+			{
+				var id = int.Parse(trainBoxItem.Name.Split("_")[1]);
+				var e = _trainEllipses[id];
+				e.Style = Resources["Selected"] as Style;
+				_selectedTrainId = id;
+				break;
+			}
+		}
+	}
+
 	/// <summary>
 	/// Движение поездов
 	/// </summary>
@@ -61,7 +79,11 @@ public class TrainsDrawHelper : BaseDrawHelper
 			}
 
 			var e = _trainEllipses[train.Id];
-			e.Style = GetTrainElementStyle(train.CurrentState.Status);
+			if (_selectedTrainId == -1 || (_selectedTrainId > -1 && _selectedTrainId != train.Id))
+			{
+				e.Style = GetTrainElementStyle(train.CurrentState.Status);
+			}
+
 			UpdateTextTrain(train, line.Name[0]);
 
 			//var left = (double)e.GetValue(Canvas.LeftProperty);
@@ -96,7 +118,7 @@ public class TrainsDrawHelper : BaseDrawHelper
 				throw new Exception("Нет подходящего стиля для статуса поезда");
 		}
 	}
-		
+
 	/// <summary>
 	/// Обновление выводимой информации о поезде
 	/// </summary>
@@ -104,11 +126,11 @@ public class TrainsDrawHelper : BaseDrawHelper
 	/// <param name="lineName">название линии</param>
 	private void UpdateTextTrain(Train train, char lineName)
 	{
-        if (train is null)
-        {
-            throw new TrainIsNullException(nameof(train));
-        }
-        var stackPanel = _trainPanels[train.Id];
+		if (train is null)
+		{
+			throw new TrainIsNullException(nameof(train));
+		}
+		var stackPanel = _trainPanels[train.Id];
 		var pgBar = stackPanel.Children.OfType<ProgressBar>().First();
 
 		var pgBarValue = 0.0;
@@ -136,7 +158,7 @@ public class TrainsDrawHelper : BaseDrawHelper
 	}
 
 
-    /*
+	/*
 	 * Стрелка влево: ← (Alt + 2190)
 	 * Стрелка вправо: → (Alt + 2192)
 	 * Стрелка вверх: ↑ (Alt + 2191)
@@ -150,7 +172,7 @@ public class TrainsDrawHelper : BaseDrawHelper
 	/// <param name="state">статус поезда</param>
 	/// <param name="direction">направление поезда</param>
 	/// <returns></returns>
-    private string GetRowTrain(ETrainStatus state, ETrainDirection direction)
+	private string GetRowTrain(ETrainStatus state, ETrainDirection direction)
 	{
 		var s = string.Empty;
 		switch (state)
@@ -181,12 +203,12 @@ public class TrainsDrawHelper : BaseDrawHelper
 	/// <param name="trainId">id поезда</param>
 	private void CreateTrainElement(int index, int trainId)
 	{
-        if (trainId <= 0)
-        {
-            throw new TrainIdIsIncorrectException(nameof(trainId));
-        }
+		if (trainId <= 0)
+		{
+			throw new TrainIdIsIncorrectException(nameof(trainId));
+		}
 
-        var e = new Ellipse
+		var e = new Ellipse
 		{
 			Name = $"train_{trainId}",
 			Style = Resources["Depot"] as Style,
@@ -196,23 +218,25 @@ public class TrainsDrawHelper : BaseDrawHelper
 		Canvas.SetTop(e, top);
 		_canvas.Children.Add(e);
 		_trainEllipses.Add(trainId, e);
-		CreateTrainPanel(trainId);
+		CreateTrainPanel(trainId, index);
 	}
 
 	/// <summary>
 	/// Создание панели для отображения информации о поезде
 	/// </summary>
 	/// <param name="trainId">id поезда</param>
-	private void CreateTrainPanel(int trainId)
+	private void CreateTrainPanel(int trainId, int lineIndex)
 	{
-		if(trainId <= 0)
+		if (trainId <= 0)
 		{
 			throw new TrainIdIsIncorrectException(nameof(trainId));
 		}
 
+		_currentTrainIndex++;
+
 		var stackPanel = new StackPanel
 		{
-			Name = $"trainPanel_{trainId}"
+			Name = $"trainPanel_{trainId}_{lineIndex}_{_currentTrainIndex}"
 		};
 
 		var label = new TextBlock

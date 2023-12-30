@@ -142,7 +142,7 @@ internal class AnalysisViewModel : BaseViewModel
 	/// <param name="plt"></param>
 	private void SavePlot(Plot plt)
 	{
-		var fileName = $@"{Folder}stats_{Guid.NewGuid()}.png";
+		var fileName = $"{Folder}stats_{Guid.NewGuid()}.png";
 		plt.SaveFig(fileName);
 		Image = new BitmapImage(new Uri(fileName, UriKind.Absolute));
 	}

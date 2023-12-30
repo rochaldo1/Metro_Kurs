@@ -59,7 +59,7 @@
         </Menu>
         <Grid Grid.Column="1" Grid.Row="1">
             <ScrollViewer>
-                <ListBox x:Name="trainBox">
+                <ListBox x:Name="trainBox" SelectedIndex="{Binding SelectedTrainIndex}">
                 </ListBox>
             </ScrollViewer>
         </Grid>
@@ -86,6 +86,9 @@
         </Style>
         <Style TargetType="Ellipse" x:Key="Station" BasedOn="{StaticResource {x:Type Ellipse}}">
             <Setter Property="Stroke" Value="LimeGreen" />
+        </Style>
+        <Style TargetType="Ellipse" x:Key="Selected" BasedOn="{StaticResource {x:Type Ellipse}}">
+            <Setter Property="Stroke" Value="Red" />
         </Style>
         <Style TargetType="Line">
             <Setter Property="Stroke" Value="DodgerBlue" />

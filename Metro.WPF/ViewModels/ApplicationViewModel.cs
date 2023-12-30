@@ -88,6 +88,21 @@ internal class ApplicationViewModel : BaseViewModel
 		}
 	}
 
+	private int _selectedTrainIndex;
+
+	/// <summary>
+	/// Изменение названия окна
+	/// </summary>
+	public int SelectedTrainIndex
+	{
+		get => _selectedTrainIndex;
+		set
+		{
+			_selectedTrainIndex = value;
+			_trainsDrawHelper.SelectTrain(_selectedTrainIndex);
+		}
+	}
+
 	private readonly Canvas _canvas;
 
 	public ApplicationViewModel
